@@ -1,19 +1,31 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { Component } from "react";
+import { createAppContainer } from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation-tabs";
+import { ThemeContextProvider } from "./src/core/themeProvider";
 
-const App = () => (
-  <View style={styles.container}>
-    <Text>Open up App.tsx to start working on your app!</Text>
-  </View>
+import TabBar from "./src/components/TabBar";
+
+import MainScreen from "./src/screens/Main";
+import SettingsScreen from "./src/screens/Settings";
+
+const TabNavigator = createBottomTabNavigator(
+  {
+    Main: MainScreen,
+    Settings: SettingsScreen
+  },
+  {
+    tabBarComponent: props => <TabBar {...props} />
+  }
 );
 
-export default App;
+const AppContainer = createAppContainer(TabNavigator);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+export default class App extends Component {
+  render() {
+    return (
+      <ThemeContextProvider>
+        <AppContainer />
+      </ThemeContextProvider>
+    );
   }
-});
+}
